@@ -1,9 +1,13 @@
 package aks.Backend;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JLabel;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import aks.AppFiles.FrameManager;
+import aks.Threads.SearchThread;
 import aks.other.MyUtil;
 
 public class AnimeDetails {
@@ -30,13 +34,23 @@ public class AnimeDetails {
                 // System.out.println("appro size: "+dataNode.size());
                 // System.out.println(fm.sf.animeAttrs.length);
                 for(JsonNode subNode : dataNode){
+                    int currentIndex = index;
                     fm.sf.animeAttrs[index] = new AnimeAttr();
                     fm.sf.animeAttrs[index].setId(subNode.get("mal_id").asInt());
                     fm.sf.animeAttrs[index].setCover_image(MyUtil.importIconFromWeb(subNode.get("images").get("jpg").get("image_url").asText()));
                     fm.sf.animeAttrs[index].setLabel(fm.sf.titleLabels[index] = new JLabel(fm.sf.animeAttrs[index].getCover_image()));
+                    fm.sf.animeAttrs[index].getLabel().addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent arg0) {
+                            SearchThread sThread = new SearchThread(fm, fm.cp, fm.sf.titles.get(currentIndex).getId());
+                            sThread.execute();
+                            System.out.println(fm.sf.titles.get(currentIndex).getId());
+                            
+                        }
+                    });
                     fm.sf.titles.offerLast(fm.sf.animeAttrs[index]);
-                    // fm.sf.titlesPanel.add(fm.sf.titles.getLast().getLabel());
-
+                    // System.out.print(fm.sf.animeAttrs[index].getId()+"//");
+                    fm.ui.addTitlesToPane();// /SHOULDNT EVEN BE CALLED FROM HERE
                     index++;
                 }
                 return dataNode.size();
