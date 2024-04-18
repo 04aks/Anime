@@ -14,7 +14,12 @@ public class WheelHandler implements MouseWheelListener{
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {    
         if(e.getWheelRotation() > 0){
-            cp.scroll -= scrollAmount;
+            
+            if(cp.y - scrollAmount > cp.getWidth()){
+                System.out.println(cp.y);
+                cp.scroll -= scrollAmount;
+            }
+            
         }
         else if(e.getWheelRotation() < 0){
             if(cp.scroll + scrollAmount >= 0){

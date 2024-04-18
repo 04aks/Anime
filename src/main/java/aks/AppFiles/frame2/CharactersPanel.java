@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.LinkedList;
 import javax.swing.JPanel;
-
 import aks.AppFiles.FrameManager;
 import aks.AppFiles.frame3.CharacterFrame;
 import aks.Backend.CharacterAttr;
@@ -19,6 +18,7 @@ import aks.Threads.CharacterDetailsThread;
 
 public class CharactersPanel extends JPanel{
     public int charactersNum = 0;
+    public int y; 
     public CharacterAttr[] characterAttr; 
     public String animeInfo, chracterInfo;
     public LinkedList<CharacterAttr> character = new LinkedList<CharacterAttr>();
@@ -49,7 +49,7 @@ public class CharactersPanel extends JPanel{
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 12));
         g2.setColor(Color.GRAY);
-        int y = 0 + scroll;
+        y = 0 + scroll;
         
         for(int i = 0; i<character.size(); i++){
 
